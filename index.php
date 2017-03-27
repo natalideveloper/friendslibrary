@@ -12,12 +12,24 @@
   <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
    <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/showmore.js"></script>
+  <script>
+  document.getElementById('search').onkeypress = function(e)
+  {
+   var code = (e.keyCode ? e.keyCode : e.which);
+   if(code == 13) 
+   { //Enter keycode
+   //Do something
+   alert("d");
+    }
+  }
+  
+  </script>
+  
 </head>
 
 <body>
   <div id="main">  
-  
-  
+
  <?php 
  /***************  This code include header *****************************/
        include 'header.php';        
@@ -73,9 +85,17 @@ $books = $bookcontroller->getFullBookListfromModelOrderedByCategory() ;
    
    $image_with_PATH ="images/type/".returnBookTypeImage($bookExtension);
    
+   if (isset($books[$i]["b_img1"])&&($books[$i]["b_img1"]!=""))
+   {
+	   $book_image = $books[$i]["b_url"]."images/".$books[$i]["b_img1"];
+   }
+   else 
+    {
+		$book_image ="/images/defaultbook.gif";
+	}
      echo "<tr>" ;
 	 echo "<td>".$books[$i]["cb_name"]."</td>\n";
-	 echo "<td> <center><img src='".$books[$i]["b_url"]."images/".$books[$i]["b_img1"]."' width='50px' height='50px' > </center></td>\n";
+	 echo "<td> <center><img src='".$book_image."' width='50px' height='50px' > </center></td>\n";
 	 echo "<td><img src ='".$image_with_PATH."' width='32px' height='32px' ></td>\n";
      echo "<td><a href='".$books[$i]["b_url"].$books[$i]["b_filename"]."' download   >".$books[$i]["b_name"]."</a></td>\n";
      echo "<td>".addShowMoreForDescription($books[$i]["b_description"])."</td>\n";	

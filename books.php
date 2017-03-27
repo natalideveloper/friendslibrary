@@ -1,6 +1,6 @@
 <?php
  include_once $_SERVER['DOCUMENT_ROOT']."/admin/Controller/BooksController.php";
-  include_once $_SERVER['DOCUMENT_ROOT']."/admin/Model/BooksModel.php";
+  
  
  ?>
 <!DOCTYPE HTML>

@@ -1,3 +1,6 @@
+<?php
+ include_once $_SERVER['DOCUMENT_ROOT']."/admin/Controller/BooksController.php";
+ ?>
 <!DOCTYPE HTML>
 <html>
 
@@ -35,8 +38,10 @@
 	   <br>
 	  
        <h3> Error 404</h3>
-	    Error code: <? echo $_REQUEST["error_code"];   ?>
-
+	  <?php 
+	  if (isset($_REQUEST["error_code"]))
+	    echo "Error code: ".   $_REQUEST["error_code"];   
+?>
 	   </div> <!--//content //-->
     </div>  <!--// site_content //-->
 <?php 

@@ -101,7 +101,9 @@ $conn->close();
           </ul>
 		  
 		  <div align="right" style="padding-top:10px;">
-			<input class="search" type="text" name="search" placeholder="Search book.."  >
+		  <form method="get" action="search.php">   <!--// action="admin/Controller/BooksController.php"  //-->
+			<input class="search" type="text" name="search_field" placeholder="Search book.." id="search" >
+		  </form>
 			</div>
         </div>	
 		  

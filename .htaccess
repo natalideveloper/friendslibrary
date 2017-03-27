@@ -1,0 +1,3 @@
+Options -Indexes
+ErrorDocument 403 http://friendlibrary.comt/page404.php
+ErrorDocument 404 http://friendlibrary.comt/page404.php
