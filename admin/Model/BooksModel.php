@@ -194,7 +194,87 @@ class BooksModel
 	   
           } //if
 		return  $books;
-	} // end of function	
+	} // end of function
+
+
+
+//Get Search result  
+
+ public function getSearchResult($search_field, $orderby='b_name')  
+    {  
+	 //include_once "../../db_config.php" ;
+	 
+        // here goes some hardcoded values to simulate the database  
+       $conn = new mysqli($this->getServername(), $this->getUsername(), $this->getPassword(), $this->getDbname());
+	   
+	   if ($conn->connect_error) 
+     {
+       die("Connection failed: " . $conn->connect_error);
+      }
+
+          // $sql = "SELECT * FROM books ORDER BY ".$orderby;
+		  try{
+		  $sql = "SELECT cb.cb_name, b.*, u.`u_login` FROM books b, users u , category_book cb 
+                   WHERE (b.u_id = u.u_id AND b.cb_id=cb.cb_id) AND 
+                     
+     ((b_name LIKE '%".$search_field."%' OR b_filename LIKE '%".$search_field."%' OR b_description LIKE '%".$search_field."%' OR b_year LIKE '%".$search_field."%' ))             
+                   
+                   
+                   
+                   
+                   ORDER BY ".$orderby;
+		  } catch (Exception $e)
+		    {
+				echo "Error in sql query ".$e."<br>";
+                echo " Maybe wrong parameter --orderby--  <br>";
+   				
+			}
+		  
+		   $result = $conn->query($sql);
+		   
+         $books = array();
+		 $i=0;
+              if ($result->num_rows > 0) 
+           {
+              // output data of each row
+	           $flag = FALSE;
+	
+          while($row = $result->fetch_assoc()) 
+	       {
+		   //  echo $row["b_id"]." Book Name: ".$row["b_name"]." year:".$row["b_year"]."<br>"   ;
+			 
+			
+         $books[$i]["u_login"]=$row["u_login"];    
+         $books[$i]["b_id"]=$row["b_id"];
+		 $books[$i]["u_id"]=$row["u_id"];
+		 $books[$i]["b_url"]=$row["b_url"];
+		 $books[$i]["b_description"]=$row["b_description"];
+		 $books[$i]["b_year"]=$row["b_year"];
+		 $books[$i]["b_name"]=$row["b_name"];
+		 $books[$i]["b_filename"]=$row["b_filename"];
+		 $books[$i]["b_img1"]=$row["b_img1"];
+		 $books[$i]["b_img2"]=$row["b_img2"];
+		 $books[$i]["b_img3"]=$row["b_img3"];
+		 $books[$i]["cb_id"]=$row["cb_id"];
+		 $books[$i]["cb_name"]=$row["cb_name"];
+		 
+		   $i++;
+           }  //while	   
+	   
+          } //if
+		return  $books;
+	} // end of function
+
+
+
+
+
+
+
+
+
+
+	
 
 	
  /*
@@ -478,7 +558,7 @@ public function deleteBookFile($b_id)
 	 try {
 	         $current_book = $this->getBookById($b_id);	        
               unlink($this->getglobalRoot().$current_book[0]["b_url"].$current_book[0]["b_filename"])	; 
-			   unlink($this->getglobalRoot().$current_book[0]["b_url"]."images/".$current_book[0]["b_img1"])	; 
+			  unlink($this->getglobalRoot().$current_book[0]["b_url"]."images/".$current_book[0]["b_img1"])	; 
 	       } catch (Exception $e) 
 		    { 
 			echo "error in Delete file is = ".$e;
