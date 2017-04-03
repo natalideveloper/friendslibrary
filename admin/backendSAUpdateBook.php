@@ -125,6 +125,20 @@ $t.="<input type='text' name='b_name' size='25' value='".$booksdata[0]["b_name"]
 
 $t.="<label for='b_year'>Book year</label> <br>\n";
 $t.="<input type='text' name='b_year' size='15' value='".$booksdata[0]["b_year"]."' ><br><br>\n";
+
+
+ if (isset($booksdata[0]["b_img1"])&&($booksdata[0]["b_img1"]!=""))
+   {
+	   $book_image = "<br><img src='".$booksdata[0]["b_url"]."/images/".$booksdata[0]["b_img1"]."' width='100px' height='100px' ><br><br>";
+   }
+   else 
+    {
+		$book_image ="";
+	}
+
+$t.=$book_image;
+//$t.="<img src='".$booksdata[0]["b_url"]."/images/".$booksdata[0]["b_img1"]."' width='100px' height='100px' ><br>\n";
+
 $t.="<label for='b_description'>Book description</label> <br>\n";
 $t.="<textarea rows='15' cols='70' name='b_description'>".$booksdata[0]["b_description"]."</textarea><br><br>";
 

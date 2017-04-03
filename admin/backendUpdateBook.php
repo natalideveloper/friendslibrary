@@ -11,8 +11,45 @@
 <title>NLibarary Science Work Repositorium</title>
  <script type="text/javascript" src="js/deleteConfirmation.js"></script>
   <script type="text/javascript" src="js/updateConfirmation.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   </head>
 <LINK href="css/styleBackend.css" type=text/css rel=stylesheet />
+
+
+<script>
+$(document).ready(function() {
+        $("#imageUpload").on('change', function() {
+          //Get count of selected files
+          var countFiles = $(this)[0].files.length;
+          var imgPath = $(this)[0].value;
+          var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+          var image_holder = $("#image-holder");
+          image_holder.empty();
+          if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+            if (typeof(FileReader) != "undefined") {
+              //loop for each file selected for uploaded.
+              for (var i = 0; i < countFiles; i++) 
+              {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                  $("<img />", {
+                    "src": e.target.result,
+                    "class": "thumb-image"
+                  }).appendTo(image_holder);
+                }
+                image_holder.show();
+                reader.readAsDataURL($(this)[0].files[i]);
+				
+              }
+            } else {
+              alert("This browser does not support FileReader.");
+            }
+          } else {
+            alert("Pls select only images");
+          }
+        });
+      });
+</script>  
 
 
 <body>
@@ -116,6 +153,24 @@ $t.="<label for='b_name'>Book Name</label> <br>\n";
 $t.="<input type='text' name='b_name' size='25' value='".$booksdata[0]["b_name"]."' ><br><br>\n";
 
 $t.="<label for='b_year'>Book year</label> <br>\n";
+
+$t.="<label>Choose Image </label><br>";
+$t.="<div id='wrapper' style='margin-top: 20px;'><input id='imageUpload' multiple='multiple' type='file' name='img1File'  /> ";
+$t.="<div id='image-holder'>";
+
+ if (isset($booksdata[0]["b_img1"])&&($booksdata[0]["b_img1"]!=""))
+   {
+	   $book_image = "<br><img src='".$booksdata[0]["b_url"]."/images/".$booksdata[0]["b_img1"]."' width='100px' height='100px' >";
+   }
+   else 
+    {
+		$book_image ="";
+	}
+
+$t.=$book_image;
+
+$t.="</div></div><br><br>";
+
 $t.="<input type='text' name='b_year' size='15' value='".$booksdata[0]["b_year"]."' ><br><br>\n";
 $t.="<label for='b_description'>Book description</label> <br>\n";
 $t.="<textarea rows='15' cols='70' name='b_description'>".$booksdata[0]["b_description"]."</textarea><br><br>";
@@ -124,7 +179,7 @@ $t.="<label for='b_url'>Book url</label> <br>\n";
 $t.="<input type='text' name='b_url' size='55' value='".$booksdata[0]["b_url"]."' ><br><br>\n";
 
 $t.="<label for='b_filename'>Book filename</label> <br>\n";
-$t.="<input type='text' name='b_filename' size='25' value='".$booksdata[0]["b_filename"]."' ><br><br>\n";
+$t.="<input type='text' name='b_filename' size='25' value='".$booksdata[0]["b_filename"]."' disabled ><br><br>\n";
 
 $t.="<label for='cb_id'>Choose category </label><br>";
 

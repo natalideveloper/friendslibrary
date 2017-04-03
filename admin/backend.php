@@ -107,10 +107,20 @@ $books = $bookcontroller->getBookListByUserIdfromModel($user_id);
 //print_r($books);
 
  for ($i=0; $i<count($books); $i++)
- { echo "<tr>" ;
+ { 
+   if (isset($books[$i]["b_img1"])&&($books[$i]["b_img1"]!=""))
+   {
+	   $book_image = $books[$i]["b_url"]."images/".$books[$i]["b_img1"];
+   }
+   else 
+    {
+		$book_image ="/images/defaultbook.gif";
+	}
+
+     echo "<tr>" ;
 	 echo "<td width='15%' class='bg'>".$books[$i]["cb_name"]."</td>";
-     echo "<td width='15%' class='bg'><img src='../".$books[$i]["b_url"]."images/".$books[$i]["b_img1"]."' width='50px' height='50px'></td>";
-     echo "<td width='15%' class='bg'>".$books[$i]["b_name"]."</td>";
+     echo "<td width='15%' class='bg'><img src='../".$book_image."' width='50px' height='50px'></td>";
+     echo "<td width='15%' class='bg'>"."<a href='..".$books[$i]["b_url"].$books[$i]["b_filename"]."' download  >".$books[$i]["b_name"]."</a></td>";
      echo "<td width='30%' class='bg'>".addShowMoreForDescription($books[$i]["b_description"])."</td>";
 	  echo "<td width='5%' class='bg'>".$books[$i]["b_year"]."</td>";
      echo "<td class='bg'><a href='#' onclick='getUpdateConfirmationUserBook(".$books[$i]["b_id"].",4 );' ><center> <img src='images/update.gif' alt='обновить'></center></a></td>";

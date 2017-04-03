@@ -99,13 +99,26 @@ $bookcontroller = new BooksController();
 $books=array();
 $books = $bookcontroller->getFullBookListfromModel() ;
 
+ 
+
 
  for ($i=0; $i<count($books); $i++)
- { echo "<tr>" ;
+ { 
+   if (isset($books[$i]["b_img1"])&&($books[$i]["b_img1"]!=""))
+   {
+	   $book_image = $books[$i]["b_url"]."images/".$books[$i]["b_img1"];
+   }
+   else 
+    {
+		$book_image ="/images/defaultbook.gif";
+	}
+
+
+     echo "<tr>" ;
      echo "<td width='5%' class='bgadmin'>".$books[$i]["b_id"]."</td>";
-     echo "<td width='15%' class='bgadmin'>".$books[$i]["b_name"]."</td>";	
+     echo "<td width='15%' class='bgadmin'>"."<a href='..".$books[$i]["b_url"].$books[$i]["b_filename"]."' download  >".$books[$i]["b_name"]."</a></td>";	
 	 echo "<td width='15%' class='bgadmin'>".$books[$i]["cb_name"]."</td>";
-     echo "<td width='15%' class='bgadmin'><center><img src='../".$books[$i]["b_url"]."images/".$books[$i]["b_img1"]."' width='20px' height='20px'></center></td>";
+     echo "<td width='15%' class='bgadmin'><center><img src='../".$book_image."' width='20px' height='20px'></center></td>";
      echo "<td width='35%' class='bgadmin'>".addShowMoreForDescription($books[$i]["b_description"])."</td>";
 	  echo "<td width='35%' class='bgadmin'>".$books[$i]["b_year"]."</td>";
 	  echo "<td width='10%' class='bgadmin'>".$books[$i]["u_login"]."</td>";
