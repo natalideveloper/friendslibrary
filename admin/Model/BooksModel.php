@@ -266,16 +266,6 @@ class BooksModel
 	} // end of function
 
 
-
-
-
-
-
-
-
-
-	
-
 	
  /*
   Get All Books  from database table 'books' by select category
@@ -338,10 +328,6 @@ class BooksModel
           } //if
 		return  $books;
 	} // end of function		
-	
-	
-	
-	
 	
 	
 	
@@ -419,22 +405,33 @@ class BooksModel
    
       /* this function Update Book Data By Admin */    
 
-  public function updateBookByAdmin($b_id, $b_name,  $b_description, $b_year, $b_url,  $b_filename,  $cb_id)  
+  public function updateBookByAdmin($b_id, $b_name,  $b_description, $b_year, $b_url,  $b_filename, $cb_id)  
    {
-	      $this->updateBookFile($b_id, $b_filename);
+	$book_file_name = $this->makeFileNameFromBookNameInput($b_name);
+	   // change file name of image in database and phisically
+    $book = $this->getBookById($b_id);   
+	
+    $book_file =  pathinfo($book[0]["b_filename"]); //real file name
+    $image_file = pathinfo($book[0]["b_img1"]); //real image name
+			 
+	$bookFileName_withExtension = $book_file_name.".".$book_file['extension'] ; // create bookfilename with Extension
+	$imageFileName_withExtension =$book_file_name.".".$image_file['extension'] ; // creat	   
+	$this->updateBookFile($b_id, $bookFileName_withExtension); // phisically rename image and book file
+		  
 		 
 	   $conn = new mysqli($this->getServername(), $this->getUsername(), $this->getPassword(), $this->getDbname());
          if ($conn->connect_error) 
            {
                 die("Connection failed: " . $conn->connect_error);
            }
-   
+		   
+		
    
    try 
 	{
   $sql = " UPDATE books SET 
-  b_name='".$b_name."', b_description='".$b_description."', b_year='".$b_year."', b_url='".$b_url."', b_filename='".$b_filename."', cb_id='".$cb_id."'
-	        WHERE b_id='".$b_id."'  ";			   
+  b_name='".$b_name."', b_description='".$b_description."', b_year='".$b_year."', b_url='".$b_url."', b_filename='".$b_filename."', cb_id='".$cb_id."',
+	        b_img1='".$imageFileName_withExtension."'  WHERE b_id='".$b_id."'  ";			   
           $result = $conn->query($sql);		 
 		  $conn->close();
 		  
@@ -450,8 +447,17 @@ class BooksModel
 
   public function updateBookByUser($b_id, $b_name,  $b_description, $b_year, $b_url,  $b_filename,  $cb_id)  
    {
-	   
-	    $this->updateBookFile($b_id, $b_filename);
+	$book_file_name = $this->makeFileNameFromBookNameInput($b_name);
+	   // change file name of image in database and phisically
+    $book = $this->getBookById($b_id);   
+	
+    $book_file =  pathinfo($book[0]["b_filename"]); //real file name
+    $image_file = pathinfo($book[0]["b_img1"]); //real image name
+			 
+	$bookFileName_withExtension = $book_file_name.".".$book_file['extension'] ; // create bookfilename with Extension
+	$imageFileName_withExtension =$book_file_name.".".$image_file['extension'] ; // creat	   
+	$this->updateBookFile($b_id, $bookFileName_withExtension); // phisically rename image and book file
+		
 	   
 	   $conn = new mysqli($this->getServername(), $this->getUsername(), $this->getPassword(), $this->getDbname());
          if ($conn->connect_error) 
@@ -460,11 +466,12 @@ class BooksModel
            }
    
    
+   
    try 
 	{
      $sql = " UPDATE books SET 
-     b_name='".$b_name."', b_description='".$b_description."', b_year='".$b_year."', b_url='".$b_url."', b_filename='".$b_filename."', cb_id='".$cb_id."'
-	        WHERE b_id='".$b_id."'  ";	
+     b_name='".$b_name."', b_description='".$b_description."', b_year='".$b_year."', b_url='".$b_url."', b_filename='".$bookFileName_withExtension."', cb_id='".$cb_id."',
+	      b_img1='".$imageFileName_withExtension."'  WHERE b_id='".$b_id."'  ";	
 			
           $result = $conn->query($sql);		 
 		  $conn->close();
@@ -590,6 +597,24 @@ public function updateBookFile($b_id, $new_name)
 			}
 	
 } //updateBookFile($b_id)
+
+
+// This function Make book Name file from User Input Book name (first input field)  
+function makeFileNameFromBookNameInput($str)
+{
+ 
+  $data = explode(" ",$str);
+				    	
+  $new_filename = "";
+  for ($i=0;$i<count($data);$i++)
+  {
+	$new_filename.=$data[$i]."_";
+  }	 
+    $book_filename = substr($new_filename, 0,strlen($new_filename)-1); // remove last "-"
+    $book_filename = str_replace(".","",$book_filename);   // check end remove .
+ 
+ return $book_filename  ; 
+}  
    
    
 public function test2()
