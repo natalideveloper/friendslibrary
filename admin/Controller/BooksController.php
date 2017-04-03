@@ -84,23 +84,23 @@ this function Upload book
 
 */	  
 	  
-	public function uploadBook($_FILES, $u_id, $u_login,  $b_description, $b_year, $b_name, $cb_id, $b_img1 )
+	public function uploadBook($files, $u_id, $u_login,  $b_description, $b_year, $b_name, $cb_id, $b_img1 )
 	{
 		
-		 if ($_FILES["bookfile"]["error"] > 0)
+		 if ($files["bookfile"]["error"] > 0)
     {
-        echo "Return Code: " . $_FILES["bookfile"]["error"] . "<br />";
+        echo "Return Code: " . $files["bookfile"]["error"] . "<br />";
     }
     else
     {
-        echo "Upload: " . $_FILES["bookfile"]["name"] . "<br />";
-        echo "Type: " . $_FILES["bookfile"]["type"] . "<br />";
-        echo "Size: " . ($_FILES["bookfile"]["size"] / 1024) . " Kb<br />";
-        echo "Temp file: " . $_FILES["bookfile"]["tmp_name"] . "<br />";
+        echo "Upload: " . $files["bookfile"]["name"] . "<br />";
+        echo "Type: " . $files["bookfile"]["type"] . "<br />";
+        echo "Size: " . ($files["bookfile"]["size"] / 1024) . " Kb<br />";
+        echo "Temp file: " . $files["bookfile"]["tmp_name"] . "<br />";
 
-        if (file_exists("upload/" . $_FILES["bookfile"]["name"]))
+        if (file_exists("upload/" . $files["bookfile"]["name"]))
         {
-            echo $_FILES["bookfile"]["name"] . " already exists. ";
+            echo $files["bookfile"]["name"] . " already exists. ";
         }
         else // file is not exist
         {
@@ -114,30 +114,29 @@ this function Upload book
 			
 			
 			
-			 $book_file =  pathinfo($_FILES["bookfile"]["name"]); //real file name
-             $image_file = pathinfo($_FILES["img1File"]["name"]); //real image name
+			 $book_file =  pathinfo($files["bookfile"]["name"]); //real file name
+             $image_file = pathinfo($files["img1File"]["name"]); //real image name
 								
              
 			
 			$book_file_name = $this->makeFileNameFromBookNameInput($b_name);
 			 
 			$bookFileName_withExtension = $book_file_name.".".$book_file['extension'] ; // create bookfilename with Extension
-				
-			$imageFileName_withExtension =$book_file_name.".".$image_file['extension'] ; // create image file-name with Extension
-			   
+			
+            if ($image_file['extension']!="") // if user doesnt upload image , write empty field			
+			{$imageFileName_withExtension =$book_file_name.".".$image_file['extension'] ; } // create image file-name with Extension
+			   else 
+			   {$imageFileName_withExtension="";}
 			
 			if (  $this->folder_exist($bookUploadPath)    ) 
 			{
-			   /*	
-				move_uploaded_file($_FILES["bookfile"]["tmp_name"],  $bookUploadPath. $_FILES["bookfile"]["name"]);
-				move_uploaded_file($_FILES["img1File"]["tmp_name"],  $imageUploadPath. $book_file['filename'].".".$image_file['extension']); //image upload               			
-				*/
 				
-				move_uploaded_file($_FILES["bookfile"]["tmp_name"],  $bookUploadPath. $bookFileName_withExtension);
-				move_uploaded_file($_FILES["img1File"]["tmp_name"],  $imageUploadPath.$book_file_name.".".$image_file['extension']); //image upload               			
+				move_uploaded_file($files["bookfile"]["tmp_name"],  $bookUploadPath. $bookFileName_withExtension);
+				move_uploaded_file($files["img1File"]["tmp_name"],  $imageUploadPath.$book_file_name.".".$image_file['extension']); //image upload               			
 				
 				
 				//Insert Data to Database
+				
 				$this->modelbooks->insertBookData($u_id, $url, $b_description, $b_year, $b_name, $bookFileName_withExtension,$cb_id, $imageFileName_withExtension);
 							
 				
@@ -147,12 +146,8 @@ this function Upload book
 				mkdir($bookUploadPath);
 				mkdir($imageUploadPath);
 			
-			/*
-				move_uploaded_file($_FILES["bookfile"]["tmp_name"],  $bookUploadPath. $_FILES["bookfile"]["name"]);
-				move_uploaded_file($_FILES["img1File"]["tmp_name"],  $imageUploadPath. $book_file['filename'].".".$image_file['extension']);   //image upload           
-				*/
-				move_uploaded_file($_FILES["bookfile"]["tmp_name"],  $bookUploadPath. $bookFileName_withExtension);
-				move_uploaded_file($_FILES["img1File"]["tmp_name"],  $imageUploadPath.$book_file_name.".".$image_file['extension']); //image upload               			
+				move_uploaded_file($files["bookfile"]["tmp_name"],  $bookUploadPath. $bookFileName_withExtension);
+				move_uploaded_file($files["img1File"]["tmp_name"],  $imageUploadPath.$book_file_name.".".$image_file['extension']); //image upload               			
 				
 				
 				//Insert Data to Database
@@ -181,7 +176,7 @@ Update Book  by User
 */
     public function updateBookByUser($b_id, $b_name,  $b_description, $b_year, $b_url,  $b_filename,  $cb_id)
 	{ // TODO   Update REAL filename 
-		 $this->modelbooks->updateBookByUser($b_id, $b_name,  $b_description, $b_year, $b_url,  $b_filename,  $cb_id)  ;	
+		 $this->modelbooks->updateBookByUser($b_id, $b_name,  $b_description, $b_year, $b_url,  $b_filename, $cb_id)  ;	
 	}		  
 	  
 	/*
