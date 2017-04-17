@@ -10,8 +10,23 @@ include 'db_config.php';
   <meta name="keywords" content="website keywords, website keywords" />
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <!-- modernizr enables HTML5 elements and feature detects -->
+     <!-- modernizr enables HTML5 elements and feature detects -->
   <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+   <script type="text/javascript" src="js/showmore.js"></script>  
+   
+   <!--//this code needed for Ajax Search //-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    	
+    $( "#search" ).autocomplete({
+      maxLength: 5,
+      source: 'searchAJAX.php'
+        });
+   
+});
+  </script>
 </head>
 
 <body>

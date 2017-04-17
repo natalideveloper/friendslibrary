@@ -2,6 +2,7 @@
  include_once $_SERVER['DOCUMENT_ROOT']."/admin/Controller/BooksController.php";
  ?>
 <!DOCTYPE HTML>
+<html lang="en-US">
 <head>
   <title>Nataliya Library</title>
   <meta name="description" content="website description" />
@@ -10,21 +11,23 @@
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <!-- modernizr enables HTML5 elements and feature detects -->
   <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
-   <script type="text/javascript" src="js/jquery.js"></script>
-  <script type="text/javascript" src="js/showmore.js"></script>
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+   <script type="text/javascript" src="js/showmore.js"></script>  
+   
+   <!--//this code needed for Ajax Search //-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
-  document.getElementById('search').onkeypress = function(e)
-  {
-   var code = (e.keyCode ? e.keyCode : e.which);
-   if(code == 13) 
-   { //Enter keycode
-   //Do something
-   alert("d");
-    }
-  }
-  
+  $( function() {
+    	
+    $( "#search" ).autocomplete({
+      maxLength: 5,
+      source: 'searchAJAX.php'
+        });
+   
+});
   </script>
-  
+   
+
 </head>
 
 <body>
@@ -45,7 +48,6 @@
       
       <div class="content">
 	  
-	   <br>
         <h1>Welcome</h1>
 		<hr>
 		<br><br>

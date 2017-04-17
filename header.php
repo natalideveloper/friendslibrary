@@ -14,8 +14,8 @@
         <div id="menu_container">
           <ul class="sf-menu" id="nav">
            <li><a href="index.php">Home</a></li>
-            <li><a href="examples.php">Examples</a></li>
-            <li><a href="page.php">A Page</a></li>
+          <!--//  <li><a href="examples.php">Examples</a></li>
+            <li><a href="page.php">A Page</a></li> //-->
            
             <li><a href="#">Category</a>
               <ul>
@@ -86,23 +86,13 @@ $conn->close();
 			</div>
 			</li>
 			
-			
-		<!--//	
-			<li  style="padding-top:10px;">
-			<form method="get" action="">
-				<fieldset>
-				<input type="text" name="s" id="search-text" size="15">
-				<input type="submit" id="search-submit" value="GO">
-				</fieldset>
-			</form>
-			</li>
-			//-->
+		
 			
           </ul>
 		  
 		  <div align="right" style="padding-top:10px;">
 		  <form method="get" action="search.php">   <!--// action="admin/Controller/BooksController.php"  //-->
-			<input class="search" type="text" name="search_field" placeholder="Search book.." id="search" >
+			<input type="text" name="search_field" class="search" autocomplete="off" spellcheck="false" placeholder="Search book.." id="search">
 		  </form>
 			</div>
         </div>	
