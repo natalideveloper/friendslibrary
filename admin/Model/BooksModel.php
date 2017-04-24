@@ -375,7 +375,50 @@ class BooksModel
 	   
           } //if
 		return   $book;
-	} // end of function	
+	} // end of function
+
+
+	
+/* this function return count of book on the site*/	
+public function getCountBooks()  
+{  
+	 $countbooks=0;
+       $conn = new mysqli($this->getServername(), $this->getUsername(), $this->getPassword(), $this->getDbname());
+	   
+	   if ($conn->connect_error) 
+     {
+       die("Connection failed: " . $conn->connect_error);
+     }
+           $sql = "SELECT b_id FROM books " ;	   
+	       $result = $conn->query($sql);
+		   
+		  $countbooks = $result->num_rows;
+		  
+		return   $countbooks;
+} // end of function	
+
+/* this function return count of book by category on the site*/	
+public function getCountBooksByCategory($category_id)  
+{  
+	 $countbooks=0;
+       $conn = new mysqli($this->getServername(), $this->getUsername(), $this->getPassword(), $this->getDbname());
+	   
+	   if ($conn->connect_error) 
+     {
+       die("Connection failed: " . $conn->connect_error);
+     }
+           $sql = "SELECT b_id, b_name, cb_id FROM books WHERE cb_id = '".$category_id."'" ;	   
+	       $result = $conn->query($sql);
+		   
+		  $countbooks = $result->num_rows;
+		  
+		return   $countbooks;
+} // end of function
+
+
+
+
+	
 
  public function insertBookData($u_id, $b_url, $b_description, $b_year, $b_name, $b_filename,$cb_id, $b_img1)  
    {

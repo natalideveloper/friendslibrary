@@ -162,6 +162,27 @@ save all data to array
           } //if
 		return   $user;
 	} // end of function	
+	
+/* this function return count of users on the site*/	
+public function getCountUsers()  
+{  
+	 $countusers=0;
+       $conn = new mysqli($this->getServername(), $this->getUsername(), $this->getPassword(), $this->getDbname());
+	   
+	   if ($conn->connect_error) 
+     {
+       die("Connection failed: " . $conn->connect_error);
+     }
+           $sql = "SELECT u_id FROM users " ;	   
+	       $result = $conn->query($sql);
+		   
+		  $countusers = $result->num_rows;
+		  
+		return   $countusers;
+} // end of function	
+	
+	
+	
 
 /* this function Update user Data on page backendUpdateUser.php */    
    public function updateUserData($u_login, $u_passw,$u_firstname,$u_lastname,$u_mail,$u_id)  
