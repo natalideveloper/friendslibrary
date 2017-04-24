@@ -67,14 +67,38 @@ This function get All books from Model (table books) by User, then put all in ar
 	
 	
 /*
-	this function call to BooksModel and Invoke similiar function, put data to array 
+	this function call to BooksModel and Invoke similiar function, put data to array  - count all books on site
+	*/ 
+    public function getCountBookFromModel()  
+    {  
+	  $totalbook=0;
+	  $totalbook = $this->modelbooks->getCountBooks();
+	  
+	  return $totalbook;
+	}	
+	
+/*
+	this function call to BooksModel and Invoke similiar function, put data to array  - count books by category
+	*/ 
+    public function getCountBookByCategoryFromModel($category_id)  
+    {  
+	  $totalbook=0;
+	  $totalbook = $this->modelbooks->getCountBooksByCategory($category_id) ;
+	  
+	  return $totalbook;
+	}	
+	
+	
+	
+	/*
+	this function call to BooksModel and count total books  
 	*/ 
     public function getBookByIdFromModel($b_id)  
     {  
 	  $book=array();
 	  $book = $this->modelbooks->getBookById($b_id);
 	  return $book;
-	}	
+	}
 	
 	
       

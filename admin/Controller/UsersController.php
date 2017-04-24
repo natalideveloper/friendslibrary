@@ -45,7 +45,17 @@ public function getUserByIdFromModel($user_id)
 	  return $user;
 }	 
 	 
-	 
+
+/*
+	this function call to UserModel and count users 
+	*/ 
+    public function getCountBookFromModel()  
+    {  
+	  $totalusers=0;
+	  $totalusers = $this->usersmodel->getCountUsers();
+	  
+	  return $totalusers;
+	}		 
 	 
 
 /*
